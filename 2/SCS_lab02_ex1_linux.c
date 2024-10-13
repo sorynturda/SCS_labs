@@ -9,7 +9,12 @@
 #define	popad()			__asm__ volatile ("popal;")
 #define	mov(dst, src)		__asm__ volatile ("mov %1, %0;" : "=r"(dst) : "r"(src))
 #define	add(dst, src)		__asm__ volatile ("add %1, %0;" : "=r"(dst) : "r"(src), "0"(dst))
-#define	add_reg(reg, src)	__asm__ volatile ("add %0, %%"reg :: "m"(src))
+
+#define	mul(src)		    __asm__ volatile ("mul %0;" :: "r"(src) : "edx", "eax")
+#define fsub(dst, src) __asm__ volatile ("fsub %2, %1;" : "=t"(dst) : "0"(dst), "u"(src) : "st(1)")
+#define fdiv(dst, src) __asm__ volatile ("fdiv %2, %1;" : "=t"(dst) : "0"(dst), "u"(src) : "st(1)")
+#define add_reg(dst, src) __asm__ volatile ("add %" src ", %" dst)
+
 #define	sub(dst, src)		__asm__ volatile ("sub %1, %0;" : "=r"(dst) : "r"(src), "0"(dst))
 #define	sub_reg(reg, src)	__asm__ volatile ("sub %0, %%"reg :: "m"(src))
 #define	mov_reg(dst, reg)	__asm__ volatile ("mov %%"reg", %0" : "=m"(dst))
@@ -21,10 +26,10 @@
 int main(void) 
 {
 	uint32_t cycles_high1 = 0, cycles_low1 = 0, cpuid_time = 0;
-	uint32_t cycles_high2 = 0, cycles_low2 = 0;
+	uint32_t cycles_high2 = 0, cycles_low2 = 0, int_var=12;
 	uint64_t temp_cycles1 = 0, temp_cycles2 = 0;
 	int64_t total_cycles = 0;
-
+	float var1 = 2, var2 = 4;
 	// declare necessary variables here
 
 	// compute the CPUID overhead
@@ -65,9 +70,9 @@ int main(void)
 	popad();
 
 	// section of code to be measured
-
-	add_reg("eax", "ebx");
-
+	
+	add_reg("ebx", "eax");
+	
 	// measure stop timestamp
 	pushad();
 	cpuid();

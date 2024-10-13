@@ -22,14 +22,59 @@
 // you can use the "Extended Asm" documentation for GNU GCC 
 // https://gcc.gnu.org/onlinedocs/gcc/Extended-Asm.html
 
+int partition(uint32_t *, int, int);
+
+void insertion_sort(uint32_t *a, int n) {
+    for (int i = 1; i < n; i++) {
+        int x = a[i];
+        int j = i - 1;
+        while (j >= 0 && a[j] > x) {
+            a[j + 1] = a[j];
+            j--;
+        }
+        a[j + 1] = x;
+    }
+}
+
+void quicksort_r(uint32_t *a, int left, int right) {
+    if (left >= right)
+        return;
+	int i = rand() % (right - left + 1) + left;
+	int tmp = a[i];
+	a[i] = a[right];
+	a[right] = tmp;	
+    int q = partition(a, left, right);
+    quicksort_r(a, left, q - 1);
+    quicksort_r(a, q + 1, right);
+}
+
+int partition(uint32_t *a, int left, int right) {
+    int x = a[right]; // pivot elementul cel mai din dreapta
+    int i = left - 1;
+    for (int j = left; j <= right - 1; j++) {
+        if (a[j] <= x) {
+            i++;
+			int tmp = a[i];
+			a[i] = a[j];
+			a[j] = tmp;
+        }
+    }
+	int tmp = a[i+1];
+	a[i+1] = a[right];
+	a[right] = tmp;
+    return i + 1; // pozitia unde e amplasat pivotul
+}
+
 void sort(uint32_t *array, int len)
 {
+	insertion_sort(array, len);
 	// implement sorting strategy here
 }
 
 void optimized_sort(uint32_t *array, int len)
 {
 	// implement the optimized version of the sorting strategy here
+	quicksort_r(array, 0, len-1);
 }
 
 void print_array(uint32_t *array, int len)
@@ -54,12 +99,12 @@ int main(void)
 	uint64_t temp_cycles1 = 0, temp_cycles2 = 0;
 	int64_t total_cycles = 0;
 	double avg_cycles = 0.0f, avg_seconds = 0.0f, total_seconds = 0.0f; 
-
+	double avg_clock_seconds = 0.0f;
 	// declare necessary variables here
-	uint32_t array1[100]; // static array definition
-	uint32_t *array2 = (uint32_t *)malloc(100 * sizeof(uint32_t)); // dynamic array definition
-
+	uint32_t array1[10000]; // static array definition
+	uint32_t *array2 = (uint32_t *)malloc(10000 * sizeof(uint32_t)); // dynamic array definition
 	for (int run = 0; run < RUNS; ++run) {
+		generate_random_array(array1, 10000);
 		// compute the CPUID overhead
 		pushad();
 		cpuid();
@@ -100,9 +145,13 @@ int main(void)
 		// section of code to be measured
 		// after measuting the execution time for both array1 and array2 using the sort function
 		// do the same for the optimized sort 
-		//optimized_sort(array1, 100);
-		sort(array1, 100);
-	
+		double begin = clock();
+
+		// optimized_sort(array1, 10000);
+		sort(array1, 10000);
+		
+		double end = clock();
+		avg_clock_seconds = (double)(end - begin);
 		// measure stop timestamp
 		pushad();
 		cpuid();
@@ -119,11 +168,13 @@ int main(void)
 	avg_cycles /= (double)RUNS;
 	avg_seconds = avg_cycles / (double)FREQUENCY;
 	total_seconds = (double) total_cycles / (double)FREQUENCY;
-
+	avg_clock_seconds /= (double)RUNS;
+	
 	printf("Average cycles = %lf\n", avg_cycles);
 	printf("Average seconds = %lf\n", avg_seconds);
 	printf("Cycles (last run) = %lld\n", total_cycles);
 	printf("Seconds (last run) = %lf\n", total_seconds);
+	printf("Average clock() cycles  = %lf\n", avg_clock_seconds);
 	return 0;
 }
 
