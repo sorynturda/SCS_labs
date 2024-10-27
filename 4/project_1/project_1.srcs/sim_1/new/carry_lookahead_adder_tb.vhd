@@ -29,6 +29,9 @@ begin
         x <= "1111";
         wait for T;
         y <= "1111";
+        wait for T;
+        c_in <= '0';
+        wait for T;
     end process stimuli;
 
 

@@ -19,8 +19,8 @@ begin
 
     tmp1 <= x or y;
     tmp2 <= x and y;
-    c_out <= tmp2 or (tmp2 and c_in);
-    g <= tmp2;
+    c_out <= tmp2 or (tmp1 and c_in);
     p <= tmp1;
+    g <= tmp2;
     s <= x xor y xor c_in;
 end Behavioral;
