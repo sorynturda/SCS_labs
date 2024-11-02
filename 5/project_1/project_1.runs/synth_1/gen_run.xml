@@ -1,16 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1730367996">
-  <File Type="RDS-PROPCONSTRS" Name="fifo_8bit_drc_synth.rpt"/>
-  <File Type="PA-TCL" Name="fifo_8bit.tcl"/>
-  <File Type="RDS-RDS" Name="fifo_8bit.vds"/>
-  <File Type="RDS-UTIL" Name="fifo_8bit_utilization_synth.rpt"/>
-  <File Type="RDS-UTIL-PB" Name="fifo_8bit_utilization_synth.pb"/>
-  <File Type="RDS-DCP" Name="fifo_8bit.dcp"/>
-  <File Type="VDS-TIMINGSUMMARY" Name="fifo_8bit_timing_summary_synth.rpt"/>
-  <File Type="VDS-TIMING-PB" Name="fifo_8bit_timing_summary_synth.pb"/>
+<GenRun Id="synth_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1730586742">
+  <File Type="RDS-PROPCONSTRS" Name="nexys4_fifo8x8_drc_synth.rpt"/>
+  <File Type="PA-TCL" Name="nexys4_fifo8x8.tcl"/>
+  <File Type="RDS-RDS" Name="nexys4_fifo8x8.vds"/>
+  <File Type="RDS-UTIL" Name="nexys4_fifo8x8_utilization_synth.rpt"/>
+  <File Type="RDS-UTIL-PB" Name="nexys4_fifo8x8_utilization_synth.pb"/>
+  <File Type="RDS-DCP" Name="nexys4_fifo8x8.dcp"/>
+  <File Type="VDS-TIMINGSUMMARY" Name="nexys4_fifo8x8_timing_summary_synth.rpt"/>
+  <File Type="VDS-TIMING-PB" Name="nexys4_fifo8x8_timing_summary_synth.pb"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
     <Filter Type="Srcs"/>
+    <File Path="$PPRDIR/../display_7seg.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <File Path="$PSRCDIR/sources_1/new/fifo_8bit.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/fifo_ctrl.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../debouncer.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/nexyx4_fifo8x8.vhd">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -18,7 +42,7 @@
     </File>
     <Config>
       <Option Name="DesignMode" Val="RTL"/>
-      <Option Name="TopModule" Val="fifo_8bit"/>
+      <Option Name="TopModule" Val="nexys4_fifo8x8"/>
       <Option Name="TopAutoSet" Val="TRUE"/>
     </Config>
   </FileSet>
@@ -35,9 +59,7 @@
     </Config>
   </FileSet>
   <Strategy Version="1" Minor="2">
-    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2016">
-      <Desc>Vivado Synthesis Defaults</Desc>
-    </StratHandle>
+    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2016"/>
     <Step Id="synth_design"/>
   </Strategy>
 </GenRun>

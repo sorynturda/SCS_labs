@@ -60,12 +60,18 @@ begin
     
     write_in_fifo : process(clk, wr, data_in)
     begin
-        if rising_edge(clk) and wr = '1' then
+        if rst = '1' then
             for i in 0 to 7 loop
-                if fifo_select(i) = '1' then
-                    reg(i) <= data_in;
-                end if; 
+                reg(i) <= (others => '0');
             end loop;
+        else
+            if rising_edge(clk) and wr = '1' then
+                for i in 0 to 7 loop
+                    if fifo_select(i) = '1' then
+                        reg(i) <= data_in;
+                    end if; 
+                end loop;
+            end if;
         end if;
     end process;   
     

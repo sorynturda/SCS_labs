@@ -15,17 +15,23 @@ set_property default_lib xil_defaultlib [current_project]
 set_property target_language Verilog [current_project]
 set_property ip_output_repo {c:/Users/Sorin Turda/Desktop/SCS_labs/5/project_1/project_1.cache/ip} [current_project]
 set_property ip_cache_permissions {read write} [current_project]
-read_vhdl -library xil_defaultlib {{C:/Users/Sorin Turda/Desktop/SCS_labs/5/project_1/project_1.srcs/sources_1/new/fifo_8bit.vhd}}
+read_vhdl -library xil_defaultlib {
+  {C:/Users/Sorin Turda/Desktop/SCS_labs/5/display_7seg.vhd}
+  {C:/Users/Sorin Turda/Desktop/SCS_labs/5/project_1/project_1.srcs/sources_1/new/fifo_8bit.vhd}
+  {C:/Users/Sorin Turda/Desktop/SCS_labs/5/project_1/project_1.srcs/sources_1/new/fifo_ctrl.vhd}
+  {C:/Users/Sorin Turda/Desktop/SCS_labs/5/debouncer.vhd}
+  {C:/Users/Sorin Turda/Desktop/SCS_labs/5/project_1/project_1.srcs/sources_1/new/nexyx4_fifo8x8.vhd}
+}
 foreach dcp [get_files -quiet -all *.dcp] {
   set_property used_in_implementation false $dcp
 }
-read_xdc {{c:/Users/Sorin Turda/Desktop/SCS_labs/5/Nexys-4-DDR-Master.xdc}}
-set_property used_in_implementation false [get_files {{c:/Users/Sorin Turda/Desktop/SCS_labs/5/Nexys-4-DDR-Master.xdc}}]
+read_xdc {{C:/Users/Sorin Turda/Desktop/SCS_labs/5/Nexys-4-DDR-Master.xdc}}
+set_property used_in_implementation false [get_files {{C:/Users/Sorin Turda/Desktop/SCS_labs/5/Nexys-4-DDR-Master.xdc}}]
 
 
-synth_design -top fifo_8bit -part xc7a35tcpg236-1
+synth_design -top nexys4_fifo8x8 -part xc7a35tcpg236-1
 
 
-write_checkpoint -force -noxdef fifo_8bit.dcp
+write_checkpoint -force -noxdef nexys4_fifo8x8.dcp
 
-catch { report_utilization -file fifo_8bit_utilization_synth.rpt -pb fifo_8bit_utilization_synth.pb }
+catch { report_utilization -file nexys4_fifo8x8_utilization_synth.rpt -pb nexys4_fifo8x8_utilization_synth.pb }

@@ -55,10 +55,10 @@ set rc [catch {
   set_property parent.project_path {C:/Users/Sorin Turda/Desktop/SCS_labs/5/project_1/project_1.xpr} [current_project]
   set_property ip_output_repo {{C:/Users/Sorin Turda/Desktop/SCS_labs/5/project_1/project_1.cache/ip}} [current_project]
   set_property ip_cache_permissions {read write} [current_project]
-  add_files -quiet {{C:/Users/Sorin Turda/Desktop/SCS_labs/5/project_1/project_1.runs/synth_1/fifo_8bit.dcp}}
-  read_xdc {{c:/Users/Sorin Turda/Desktop/SCS_labs/5/Nexys-4-DDR-Master.xdc}}
-  link_design -top fifo_8bit -part xc7a35tcpg236-1
-  write_hwdef -file fifo_8bit.hwdef
+  add_files -quiet {{C:/Users/Sorin Turda/Desktop/SCS_labs/5/project_1/project_1.runs/synth_1/nexys4_fifo8x8.dcp}}
+  read_xdc {{C:/Users/Sorin Turda/Desktop/SCS_labs/5/Nexys-4-DDR-Master.xdc}}
+  link_design -top nexys4_fifo8x8 -part xc7a35tcpg236-1
+  write_hwdef -file nexys4_fifo8x8.hwdef
   close_msg_db -file init_design.pb
 } RESULT]
 if {$rc} {
@@ -74,8 +74,8 @@ set ACTIVE_STEP opt_design
 set rc [catch {
   create_msg_db opt_design.pb
   opt_design 
-  write_checkpoint -force fifo_8bit_opt.dcp
-  catch { report_drc -file fifo_8bit_drc_opted.rpt }
+  write_checkpoint -force nexys4_fifo8x8_opt.dcp
+  catch { report_drc -file nexys4_fifo8x8_drc_opted.rpt }
   close_msg_db -file opt_design.pb
 } RESULT]
 if {$rc} {
@@ -92,10 +92,10 @@ set rc [catch {
   create_msg_db place_design.pb
   implement_debug_core 
   place_design 
-  write_checkpoint -force fifo_8bit_placed.dcp
-  catch { report_io -file fifo_8bit_io_placed.rpt }
-  catch { report_utilization -file fifo_8bit_utilization_placed.rpt -pb fifo_8bit_utilization_placed.pb }
-  catch { report_control_sets -verbose -file fifo_8bit_control_sets_placed.rpt }
+  write_checkpoint -force nexys4_fifo8x8_placed.dcp
+  catch { report_io -file nexys4_fifo8x8_io_placed.rpt }
+  catch { report_utilization -file nexys4_fifo8x8_utilization_placed.rpt -pb nexys4_fifo8x8_utilization_placed.pb }
+  catch { report_control_sets -verbose -file nexys4_fifo8x8_control_sets_placed.rpt }
   close_msg_db -file place_design.pb
 } RESULT]
 if {$rc} {
@@ -111,17 +111,17 @@ set ACTIVE_STEP route_design
 set rc [catch {
   create_msg_db route_design.pb
   route_design 
-  write_checkpoint -force fifo_8bit_routed.dcp
-  catch { report_drc -file fifo_8bit_drc_routed.rpt -pb fifo_8bit_drc_routed.pb -rpx fifo_8bit_drc_routed.rpx }
-  catch { report_methodology -file fifo_8bit_methodology_drc_routed.rpt -rpx fifo_8bit_methodology_drc_routed.rpx }
-  catch { report_timing_summary -warn_on_violation -max_paths 10 -file fifo_8bit_timing_summary_routed.rpt -rpx fifo_8bit_timing_summary_routed.rpx }
-  catch { report_power -file fifo_8bit_power_routed.rpt -pb fifo_8bit_power_summary_routed.pb -rpx fifo_8bit_power_routed.rpx }
-  catch { report_route_status -file fifo_8bit_route_status.rpt -pb fifo_8bit_route_status.pb }
-  catch { report_clock_utilization -file fifo_8bit_clock_utilization_routed.rpt }
+  write_checkpoint -force nexys4_fifo8x8_routed.dcp
+  catch { report_drc -file nexys4_fifo8x8_drc_routed.rpt -pb nexys4_fifo8x8_drc_routed.pb -rpx nexys4_fifo8x8_drc_routed.rpx }
+  catch { report_methodology -file nexys4_fifo8x8_methodology_drc_routed.rpt -rpx nexys4_fifo8x8_methodology_drc_routed.rpx }
+  catch { report_timing_summary -warn_on_violation -max_paths 10 -file nexys4_fifo8x8_timing_summary_routed.rpt -rpx nexys4_fifo8x8_timing_summary_routed.rpx }
+  catch { report_power -file nexys4_fifo8x8_power_routed.rpt -pb nexys4_fifo8x8_power_summary_routed.pb -rpx nexys4_fifo8x8_power_routed.rpx }
+  catch { report_route_status -file nexys4_fifo8x8_route_status.rpt -pb nexys4_fifo8x8_route_status.pb }
+  catch { report_clock_utilization -file nexys4_fifo8x8_clock_utilization_routed.rpt }
   close_msg_db -file route_design.pb
 } RESULT]
 if {$rc} {
-  write_checkpoint -force fifo_8bit_routed_error.dcp
+  write_checkpoint -force nexys4_fifo8x8_routed_error.dcp
   step_failed route_design
   return -code error $RESULT
 } else {

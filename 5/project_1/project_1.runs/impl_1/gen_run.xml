@@ -1,68 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1730367996">
-  <File Type="PWROPT-DRC" Name="fifo_8bit_drc_pwropted.rpt"/>
-  <File Type="OPT-METHODOLOGY-DRC" Name="fifo_8bit_methodology_drc_opted.rpt"/>
-  <File Type="INIT-TIMING" Name="fifo_8bit_timing_summary_init.rpt"/>
-  <File Type="ROUTE-PWR-RPX" Name="fifo_8bit_power_routed.rpx"/>
-  <File Type="PA-TCL" Name="fifo_8bit.tcl"/>
-  <File Type="OPT-HWDEF" Name="fifo_8bit.hwdef"/>
-  <File Type="RDI-RDI" Name="fifo_8bit.vdi"/>
-  <File Type="OPT-DCP" Name="fifo_8bit_opt.dcp"/>
-  <File Type="OPT-DRC" Name="fifo_8bit_drc_opted.rpt"/>
-  <File Type="OPT-TIMING" Name="fifo_8bit_timing_summary_opted.rpt"/>
-  <File Type="PWROPT-DCP" Name="fifo_8bit_pwropt.dcp"/>
-  <File Type="PWROPT-TIMING" Name="fifo_8bit_timing_summary_pwropted.rpt"/>
-  <File Type="PLACE-DCP" Name="fifo_8bit_placed.dcp"/>
-  <File Type="PLACE-IO" Name="fifo_8bit_io_placed.rpt"/>
-  <File Type="PLACE-CLK" Name="fifo_8bit_clock_utilization_placed.rpt"/>
-  <File Type="PLACE-UTIL" Name="fifo_8bit_utilization_placed.rpt"/>
-  <File Type="PLACE-UTIL-PB" Name="fifo_8bit_utilization_placed.pb"/>
-  <File Type="PLACE-CTRL" Name="fifo_8bit_control_sets_placed.rpt"/>
-  <File Type="PLACE-SIMILARITY" Name="fifo_8bit_incremental_reuse_placed.rpt"/>
-  <File Type="PLACE-PRE-SIMILARITY" Name="fifo_8bit_incremental_reuse_pre_placed.rpt"/>
-  <File Type="PLACE-TIMING" Name="fifo_8bit_timing_summary_placed.rpt"/>
-  <File Type="POSTPLACE-PWROPT-DCP" Name="fifo_8bit_postplace_pwropt.dcp"/>
-  <File Type="POSTPLACE-PWROPT-TIMING" Name="fifo_8bit_timing_summary_postplace_pwropted.rpt"/>
-  <File Type="PHYSOPT-DCP" Name="fifo_8bit_physopt.dcp"/>
-  <File Type="PHYSOPT-DRC" Name="fifo_8bit_drc_physopted.rpt"/>
-  <File Type="PHYSOPT-TIMING" Name="fifo_8bit_timing_summary_physopted.rpt"/>
-  <File Type="ROUTE-ERROR-DCP" Name="fifo_8bit_routed_error.dcp"/>
-  <File Type="ROUTE-DCP" Name="fifo_8bit_routed.dcp"/>
-  <File Type="ROUTE-BLACKBOX-DCP" Name="fifo_8bit_routed_bb.dcp"/>
-  <File Type="ROUTE-DRC" Name="fifo_8bit_drc_routed.rpt"/>
-  <File Type="ROUTE-DRC-PB" Name="fifo_8bit_drc_routed.pb"/>
-  <File Type="BG-BIN" Name="fifo_8bit.bin"/>
-  <File Type="ROUTE-DRC-RPX" Name="fifo_8bit_drc_routed.rpx"/>
-  <File Type="BG-DRC" Name="fifo_8bit.drc"/>
-  <File Type="ROUTE-METHODOLOGY-DRC" Name="fifo_8bit_methodology_drc_routed.rpt"/>
-  <File Type="BITSTR-MSK" Name="fifo_8bit.msk"/>
-  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="fifo_8bit_methodology_drc_routed.rpx"/>
-  <File Type="BG-BGN" Name="fifo_8bit.bgn"/>
-  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="fifo_8bit_methodology_drc_routed.pb"/>
-  <File Type="ROUTE-PWR" Name="fifo_8bit_power_routed.rpt"/>
-  <File Type="ROUTE-PWR-SUM" Name="fifo_8bit_power_summary_routed.pb"/>
-  <File Type="ROUTE-STATUS" Name="fifo_8bit_route_status.rpt"/>
-  <File Type="ROUTE-STATUS-PB" Name="fifo_8bit_route_status.pb"/>
-  <File Type="ROUTE-TIMINGSUMMARY" Name="fifo_8bit_timing_summary_routed.rpt"/>
-  <File Type="ROUTE-TIMING-PB" Name="fifo_8bit_timing_summary_routed.pb"/>
-  <File Type="ROUTE-TIMING-RPX" Name="fifo_8bit_timing_summary_routed.rpx"/>
-  <File Type="ROUTE-SIMILARITY" Name="fifo_8bit_incremental_reuse_routed.rpt"/>
-  <File Type="ROUTE-CLK" Name="fifo_8bit_clock_utilization_routed.rpt"/>
-  <File Type="POSTROUTE-PHYSOPT-DCP" Name="fifo_8bit_postroute_physopt.dcp"/>
-  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="fifo_8bit_postroute_physopt_bb.dcp"/>
-  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="fifo_8bit_timing_summary_postroute_physopted.rpt"/>
-  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="fifo_8bit_timing_summary_postroute_physopted.pb"/>
-  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="fifo_8bit_timing_summary_postroute_physopted.rpx"/>
-  <File Type="BG-BIT" Name="fifo_8bit.bit"/>
-  <File Type="BITSTR-RBT" Name="fifo_8bit.rbt"/>
-  <File Type="BITSTR-NKY" Name="fifo_8bit.nky"/>
-  <File Type="BITSTR-BMM" Name="fifo_8bit_bd.bmm"/>
-  <File Type="BITSTR-MMI" Name="fifo_8bit.mmi"/>
-  <File Type="BITSTR-SYSDEF" Name="fifo_8bit.sysdef"/>
+<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1730586742">
+  <File Type="PWROPT-DRC" Name="nexys4_fifo8x8_drc_pwropted.rpt"/>
+  <File Type="OPT-METHODOLOGY-DRC" Name="nexys4_fifo8x8_methodology_drc_opted.rpt"/>
+  <File Type="INIT-TIMING" Name="nexys4_fifo8x8_timing_summary_init.rpt"/>
+  <File Type="ROUTE-PWR-RPX" Name="nexys4_fifo8x8_power_routed.rpx"/>
+  <File Type="PA-TCL" Name="nexys4_fifo8x8.tcl"/>
+  <File Type="OPT-HWDEF" Name="nexys4_fifo8x8.hwdef"/>
+  <File Type="RDI-RDI" Name="nexys4_fifo8x8.vdi"/>
+  <File Type="OPT-DCP" Name="nexys4_fifo8x8_opt.dcp"/>
+  <File Type="OPT-DRC" Name="nexys4_fifo8x8_drc_opted.rpt"/>
+  <File Type="OPT-TIMING" Name="nexys4_fifo8x8_timing_summary_opted.rpt"/>
+  <File Type="PWROPT-DCP" Name="nexys4_fifo8x8_pwropt.dcp"/>
+  <File Type="PWROPT-TIMING" Name="nexys4_fifo8x8_timing_summary_pwropted.rpt"/>
+  <File Type="PLACE-DCP" Name="nexys4_fifo8x8_placed.dcp"/>
+  <File Type="PLACE-IO" Name="nexys4_fifo8x8_io_placed.rpt"/>
+  <File Type="PLACE-CLK" Name="nexys4_fifo8x8_clock_utilization_placed.rpt"/>
+  <File Type="PLACE-UTIL" Name="nexys4_fifo8x8_utilization_placed.rpt"/>
+  <File Type="PLACE-UTIL-PB" Name="nexys4_fifo8x8_utilization_placed.pb"/>
+  <File Type="PLACE-CTRL" Name="nexys4_fifo8x8_control_sets_placed.rpt"/>
+  <File Type="PLACE-SIMILARITY" Name="nexys4_fifo8x8_incremental_reuse_placed.rpt"/>
+  <File Type="PLACE-PRE-SIMILARITY" Name="nexys4_fifo8x8_incremental_reuse_pre_placed.rpt"/>
+  <File Type="PLACE-TIMING" Name="nexys4_fifo8x8_timing_summary_placed.rpt"/>
+  <File Type="POSTPLACE-PWROPT-DCP" Name="nexys4_fifo8x8_postplace_pwropt.dcp"/>
+  <File Type="POSTPLACE-PWROPT-TIMING" Name="nexys4_fifo8x8_timing_summary_postplace_pwropted.rpt"/>
+  <File Type="PHYSOPT-DCP" Name="nexys4_fifo8x8_physopt.dcp"/>
+  <File Type="PHYSOPT-DRC" Name="nexys4_fifo8x8_drc_physopted.rpt"/>
+  <File Type="PHYSOPT-TIMING" Name="nexys4_fifo8x8_timing_summary_physopted.rpt"/>
+  <File Type="ROUTE-ERROR-DCP" Name="nexys4_fifo8x8_routed_error.dcp"/>
+  <File Type="ROUTE-DCP" Name="nexys4_fifo8x8_routed.dcp"/>
+  <File Type="ROUTE-BLACKBOX-DCP" Name="nexys4_fifo8x8_routed_bb.dcp"/>
+  <File Type="ROUTE-DRC" Name="nexys4_fifo8x8_drc_routed.rpt"/>
+  <File Type="ROUTE-DRC-PB" Name="nexys4_fifo8x8_drc_routed.pb"/>
+  <File Type="BG-BIN" Name="nexys4_fifo8x8.bin"/>
+  <File Type="ROUTE-DRC-RPX" Name="nexys4_fifo8x8_drc_routed.rpx"/>
+  <File Type="BG-DRC" Name="nexys4_fifo8x8.drc"/>
+  <File Type="ROUTE-METHODOLOGY-DRC" Name="nexys4_fifo8x8_methodology_drc_routed.rpt"/>
+  <File Type="BITSTR-MSK" Name="nexys4_fifo8x8.msk"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="nexys4_fifo8x8_methodology_drc_routed.rpx"/>
+  <File Type="BG-BGN" Name="nexys4_fifo8x8.bgn"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="nexys4_fifo8x8_methodology_drc_routed.pb"/>
+  <File Type="ROUTE-PWR" Name="nexys4_fifo8x8_power_routed.rpt"/>
+  <File Type="ROUTE-PWR-SUM" Name="nexys4_fifo8x8_power_summary_routed.pb"/>
+  <File Type="ROUTE-STATUS" Name="nexys4_fifo8x8_route_status.rpt"/>
+  <File Type="ROUTE-STATUS-PB" Name="nexys4_fifo8x8_route_status.pb"/>
+  <File Type="ROUTE-TIMINGSUMMARY" Name="nexys4_fifo8x8_timing_summary_routed.rpt"/>
+  <File Type="ROUTE-TIMING-PB" Name="nexys4_fifo8x8_timing_summary_routed.pb"/>
+  <File Type="ROUTE-TIMING-RPX" Name="nexys4_fifo8x8_timing_summary_routed.rpx"/>
+  <File Type="ROUTE-SIMILARITY" Name="nexys4_fifo8x8_incremental_reuse_routed.rpt"/>
+  <File Type="ROUTE-CLK" Name="nexys4_fifo8x8_clock_utilization_routed.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-DCP" Name="nexys4_fifo8x8_postroute_physopt.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="nexys4_fifo8x8_postroute_physopt_bb.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="nexys4_fifo8x8_timing_summary_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="nexys4_fifo8x8_timing_summary_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="nexys4_fifo8x8_timing_summary_postroute_physopted.rpx"/>
+  <File Type="BG-BIT" Name="nexys4_fifo8x8.bit"/>
+  <File Type="BITSTR-RBT" Name="nexys4_fifo8x8.rbt"/>
+  <File Type="BITSTR-NKY" Name="nexys4_fifo8x8.nky"/>
+  <File Type="BITSTR-BMM" Name="nexys4_fifo8x8_bd.bmm"/>
+  <File Type="BITSTR-MMI" Name="nexys4_fifo8x8.mmi"/>
+  <File Type="BITSTR-SYSDEF" Name="nexys4_fifo8x8.sysdef"/>
   <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
     <Filter Type="Srcs"/>
+    <File Path="$PPRDIR/../display_7seg.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <File Path="$PSRCDIR/sources_1/new/fifo_8bit.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/fifo_ctrl.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../debouncer.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/nexyx4_fifo8x8.vhd">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -70,7 +94,7 @@
     </File>
     <Config>
       <Option Name="DesignMode" Val="RTL"/>
-      <Option Name="TopModule" Val="fifo_8bit"/>
+      <Option Name="TopModule" Val="nexys4_fifo8x8"/>
       <Option Name="TopAutoSet" Val="TRUE"/>
     </Config>
   </FileSet>
@@ -87,9 +111,7 @@
     </Config>
   </FileSet>
   <Strategy Version="1" Minor="2">
-    <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2016">
-      <Desc>Default settings for Implementation.</Desc>
-    </StratHandle>
+    <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2016"/>
     <Step Id="init_design"/>
     <Step Id="opt_design"/>
     <Step Id="power_opt_design"/>
