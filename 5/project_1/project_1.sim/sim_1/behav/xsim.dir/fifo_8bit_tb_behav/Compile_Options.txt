@@ -1,1 +1,0 @@
--wto "862a3c459d73424cabe970776cf49628" --debug "typical" --relax --mt "2" -L "xil_defaultlib" -L "secureip" --snapshot "fifo_8bit_tb_behav" "xil_defaultlib.fifo_8bit_tb" -log "elaborate.log" 

@@ -54,9 +54,13 @@ begin
     begin
         if wr_tmp = "000" or rd_tmp = "111" then
             empty <= '1';
+        else
+            empty <= '0';
         end if;
         if wr_tmp = "111" and rd_tmp = "111" then
             full <= '1';
+        else
+            full <= '0';
         end if;
     end process;
 end Behavioral;
