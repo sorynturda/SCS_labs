@@ -26,10 +26,8 @@ begin
             if rising_edge(clk) then
                 if rd = '1' then
                     rd_tmp <= rd_tmp + 1;
-                    rd_inc <= '1';
-                else    
-                    rd_inc <= '0';
                 end if;
+                rd_inc <= rd;
             end if; 
         end if;
     end process;
@@ -42,22 +40,20 @@ begin
             if rising_edge(clk) then
                 if wr = '1' then
                     wr_tmp <= wr_tmp + 1;
-                    wr_inc <= '1';
-                else
-                    wr_inc <= '0';
                 end if;
+                wr_inc <= wr;
             end if; 
         end if;
     end process;
 
-    full_empty : process(clk)
+    full_empty : process(wr_tmp, rd_tmp)
     begin
         if wr_tmp = "000" or rd_tmp = "111" then
             empty <= '1';
         else
             empty <= '0';
         end if;
-        if wr_tmp = "111" and rd_tmp = "111" then
+        if wr_tmp = "111" and rd_tmp = "000" then
             full <= '1';
         else
             full <= '0';
