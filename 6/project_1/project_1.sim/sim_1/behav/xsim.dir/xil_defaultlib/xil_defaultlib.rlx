@@ -1,0 +1,9 @@
+0.6
+2016.4
+Jan 23 2017
+19:37:30
+C:/Users/Sorin Turda/Desktop/SCS_labs/6/project_1/project_1.sim/sim_1/behav/glbl.v,1485222234,verilog,,,,glbl,,,,,,,,
+C:/Users/Sorin Turda/Desktop/SCS_labs/6/project_1/project_1.srcs/sources_1/ip/fifo32x64/sim/fifo32x64.v,1730970344,verilog,,,,fifo32x64,,,../../../project_1.ip_user_files/ipstatic/hdl,,,,,
+C:/Users/Sorin Turda/Desktop/SCS_labs/6/project_1/project_1.srcs/sources_1/ip/fp_subtractor/sim/fp_subtractor.vhd,1730971581,vhdl,,,,fp_subtractor,,,,,,,,
+C:/Users/Sorin Turda/Desktop/SCS_labs/6/temperature_subtractor.vhd,1730453692,vhdl,,,,temperature_subtractor,,,,,,,,
+C:/Users/Sorin Turda/Desktop/SCS_labs/6/testbench_stimulus_file.vhd,1730970631,vhdl,,,,testbench_stimulus_file,,,,,,,,
