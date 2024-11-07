@@ -1,6 +1,8 @@
 # compile vhdl design source files
+vhdl xil_defaultlib  "../../../project_1.srcs/sources_1/ip/fp_square_root/sim/fp_square_root.vhd"
+vhdl xil_defaultlib  "../../../project_1.srcs/sources_1/ip/fp_absolute_value/sim/fp_absolute_value.vhd"
 vhdl xil_defaultlib  "../../../project_1.srcs/sources_1/ip/fp_subtractor/sim/fp_subtractor.vhd"
-vhdl xil_defaultlib  "../../../../temperature_subtractor.vhd"
+vhdl xil_defaultlib  "../../../project_1.srcs/sources_1/new/temperature_substractor.vhd"
 vhdl xil_defaultlib  "../../../../testbench_stimulus_file.vhd"
 
 # Do not sort compile order

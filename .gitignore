@@ -104,3 +104,4 @@ main
 */*/*/bd/*/ip/*/*.tcl
 hw_handoff
 ipshared
+*results*
