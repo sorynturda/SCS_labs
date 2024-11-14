@@ -1,0 +1,1 @@
+-wto "8aa097bc93934a02a42035563558af1a" --debug "typical" --relax --mt "2" -L "xil_defaultlib" -L "secureip" --snapshot "saturator_tb_behav" "xil_defaultlib.saturator_tb" -log "elaborate.log" 
