@@ -2,7 +2,8 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
 entity top_level is
-    Port ( a : in STD_LOGIC_VECTOR (31 downto 0);
+    Port ( aclk : in std_logic;
+           a : in STD_LOGIC_VECTOR (31 downto 0);
            min : in STD_LOGIC_VECTOR (31 downto 0);
            max : in STD_LOGIC_VECTOR (31 downto 0);
            sum : out STD_LOGIC_VECTOR (31 downto 0));
@@ -43,11 +44,27 @@ component sliding_window_adder is
     );
 end component;
 
-signal sat_tvalid : STD_LOGIC;
-signal sat_tready : STD_LOGIC;
-signal sat_tdata : STD_LOGIC_VECTOR(31 DOWNTO 0);
+signal s_axis_min_tvalid, s_axis_max_tvalid, s_axis_val_tvalid : STD_LOGIC := '1';
+
+signal m_axis_result_tvalid: STD_LOGIC := '0';
+signal sat_data, swr_data : STD_LOGIC_VECTOR(31 DOWNTO 0) := (others => '0');
+
 
 begin
 
+    saturator_map : saturator port map(
+        aclk,
+        s_axis_val_tvalid, open,
+        a, s_axis_max_tvalid, open, max,
+        s_axis_min_tvalid, open, min,
+        m_axis_result_tvalid, '1', sat_data
+    );
 
+    swa_map : sliding_window_adder port map(
+        aclk,
+        m_axis_result_tvalid, open, sat_data,
+        open, '1', swr_data
+    );
+    
+    sum <= swr_data;
 end Behavioral;

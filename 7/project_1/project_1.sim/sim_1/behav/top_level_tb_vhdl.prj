@@ -1,0 +1,8 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  "../../../project_1.srcs/sources_1/new/sliding_window_adder.vhd"
+vhdl xil_defaultlib  "../../../project_1.srcs/sources_1/new/saturator.vhd"
+vhdl xil_defaultlib  "../../../project_1.srcs/sources_1/new/top_level.vhd"
+vhdl xil_defaultlib  "../../../project_1.srcs/sim_1/new/top_level_tb.vhd"
+
+# Do not sort compile order
+nosort
