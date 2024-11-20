@@ -28,7 +28,6 @@ signal state : state_type := S_READ;
 signal res_valid : STD_LOGIC := '0';
 signal result : STD_LOGIC_VECTOR (31 downto 0) := (others => '0');
 
-signal a_ready, b_ready, op_ready : STD_LOGIC := '0';
 signal internal_ready, external_ready, inputs_valid : STD_LOGIC := '0';
 
 begin
