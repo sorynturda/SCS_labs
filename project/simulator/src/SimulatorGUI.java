@@ -149,39 +149,6 @@ public class SimulatorGUI extends JFrame {
         }
     }
 
-    private void showHelp() {
-        String helpText =
-                "Available Commands:\n\n" +
-                        "1. MOV dest,src - Move data\n" +
-                        "2. ADD dest,src - Add\n" +
-                        "3. SUB dest,src - Subtract\n" +
-                        "4. OR dest,src - Logical OR\n" +
-                        "5. XOR dest,src - Logical XOR\n" +
-                        "6. AND dest,src - Logical AND\n" +
-                        "7. MUL src - Multiply AX with src\n" +
-                        "8. JMP address - Jump to address\n" +
-                        "9. CMP op1,op2 - Compare\n" +
-                        "10. INC dest - Increment\n" +
-                        "11. DEC dest - Decrement\n" +
-                        "12. SHR dest,count - Shift right\n" +
-                        "13. JZ address - Jump if zero\n" +
-                        "14. JG address - Jump if greater\n" +
-                        "15. LOOP address - Loop with CX\n\n" +
-                        "Available Registers: AX, BX, CX, DX, SI, DI, SP, BP\n\n" +
-                        "Examples:\n" +
-                        "MOV AX,5\n" +
-                        "ADD BX,AX\n" +
-                        "MUL BX\n" +
-                        "JMP 100";
-
-        JTextArea textArea = new JTextArea(helpText);
-        textArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        scrollPane.setPreferredSize(new Dimension(400, 300));
-
-        JOptionPane.showMessageDialog(this, scrollPane, "Help", JOptionPane.INFORMATION_MESSAGE);
-    }
-
     private void updateDisplay() {
         // Update registers display
         StringBuilder regs = new StringBuilder("Registers:\n");
