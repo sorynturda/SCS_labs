@@ -36,18 +36,15 @@ public class Intel8086Simulator {
     private int parseOperand(String operand) {
         operand = operand.trim();
 
-        // Handle memory reference
         if (operand.startsWith("[") && operand.endsWith("]")) {
             String memRef = operand.substring(1, operand.length() - 1).trim();
             return memory[getMemoryAddress(memRef)];
         }
 
-        // Handle register
         if (registers.containsKey(operand)) {
             return registers.get(operand);
         }
 
-        // Handle immediate value (try hex first, then decimal)
         try {
             if (operand.startsWith("0X") || operand.startsWith("0x")) {
                 return Integer.parseInt(operand.substring(2), 16);

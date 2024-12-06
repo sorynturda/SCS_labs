@@ -17,7 +17,6 @@ public class SimulatorGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Create display areas
         memoryArea = new JTextArea(20, 30);
         registersArea = new JTextArea(10, 30);
         flagsArea = new JTextArea(5, 30);
@@ -26,7 +25,6 @@ public class SimulatorGUI extends JFrame {
         registersArea.setEditable(false);
         flagsArea.setEditable(false);
 
-        // Create command input
         JPanel commandPanel = new JPanel();
         commandField = new JTextField(30);
         JButton executeButton = new JButton("Execute");
@@ -34,13 +32,11 @@ public class SimulatorGUI extends JFrame {
         executeButton.addActionListener(e -> executeCommand());
         commandField.addActionListener(e -> executeCommand());
 
-        // Add help button
 
         commandPanel.add(new JLabel("Command:"));
         commandPanel.add(commandField);
         commandPanel.add(executeButton);
 
-        // Layout
         JPanel displayPanel = new JPanel(new GridLayout(3, 1));
         displayPanel.add(new JScrollPane(registersArea));
         displayPanel.add(new JScrollPane(flagsArea));
@@ -49,7 +45,6 @@ public class SimulatorGUI extends JFrame {
         add(displayPanel, BorderLayout.CENTER);
         add(commandPanel, BorderLayout.SOUTH);
 
-        // Initial update
         updateDisplay();
 
         pack();
@@ -150,7 +145,6 @@ public class SimulatorGUI extends JFrame {
     }
 
     private void updateDisplay() {
-        // Update registers display
         StringBuilder regs = new StringBuilder("Registers:\n");
         for (Map.Entry<String, Integer> entry : simulator.getRegisters().entrySet()) {
             regs.append(String.format("%s: %04X (%d)\n",
@@ -159,14 +153,12 @@ public class SimulatorGUI extends JFrame {
         regs.append(String.format("IP: %04X (%d)\n", simulator.getIP(), simulator.getIP()));
         registersArea.setText(regs.toString());
 
-        // Update flags display
         StringBuilder flags = new StringBuilder("Flags:\n");
         for (Map.Entry<String, Boolean> entry : simulator.getFlags().entrySet()) {
             flags.append(String.format("%s: %s\n", entry.getKey(), entry.getValue()));
         }
         flagsArea.setText(flags.toString());
 
-        // Update memory display
         StringBuilder mem = new StringBuilder("Memory (first 256 bytes):\n");
         int[] memory = simulator.getMemory();
         for (int i = 0; i < 256; i += 16) {
