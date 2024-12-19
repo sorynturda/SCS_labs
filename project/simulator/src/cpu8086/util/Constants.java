@@ -1,4 +1,4 @@
-package com.cpu8086.util;
+package cpu8086.util;
 
 public final class Constants {
     private Constants() {} // Prevent instantiation

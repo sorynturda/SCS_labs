@@ -1,4 +1,4 @@
-package com.cpu8086.model;
+package cpu8086.model;
 
 public class ALU {
     private static final int MAX_16BIT = 0x7FFF;  // Maximum positive 16-bit signed value

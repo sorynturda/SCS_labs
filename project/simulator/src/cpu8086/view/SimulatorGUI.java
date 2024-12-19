@@ -1,6 +1,6 @@
-package com.cpu8086.view;
+package cpu8086.view;
 
-import com.cpu8086.controller.CPUController;
+import cpu8086.controller.CPUController;
 
 import javax.swing.*;
 import java.awt.*;

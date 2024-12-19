@@ -1,4 +1,4 @@
-package com.cpu8086.model;
+package cpu8086.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +32,13 @@ public class Program {
         return currentLine < instructions.size() ? instructions.get(currentLine) : null;
     }
 
+    public void jumpToInstruction(int targetLine) {
+        currentLine = targetLine - 1;
+        if (currentLine < 0 || currentLine >= instructions.size()) {
+            throw new IllegalArgumentException("Invalid jump target: " + targetLine);
+        }
+    }
+
     public boolean hasMoreInstructions() {
         return currentLine < instructions.size();
     }
@@ -42,9 +49,6 @@ public class Program {
         }
     }
 
-    public int getCurrentLine() {
-        return currentLine;
-    }
 
     public void reset() {
         currentLine = 0;
@@ -52,11 +56,12 @@ public class Program {
     }
 
     public List<String> getInstructions() {
-        return new ArrayList<>(instructions);
+        return instructions;
     }
 
-    public boolean isRunning() {
-        return running;
+
+    public int getInstructionCount() {
+        return instructions.size();
     }
 
     public void setRunning(boolean running) {

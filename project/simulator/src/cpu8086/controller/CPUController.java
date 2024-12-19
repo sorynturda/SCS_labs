@@ -1,9 +1,9 @@
-package com.cpu8086.controller;
+package cpu8086.controller;
 
-import com.cpu8086.exception.CPUException;
-import com.cpu8086.model.CPU;
-import com.cpu8086.model.Instruction;
-import com.cpu8086.model.Program;
+import cpu8086.exception.CPUException;
+import cpu8086.model.CPU;
+import cpu8086.model.Instruction;
+import cpu8086.model.Program;
 
 public class CPUController {
     private CPU cpu;
@@ -16,7 +16,7 @@ public class CPUController {
         this.cpu = new CPU();
         this.program = new Program();
         this.decoder = new InstructionDecoder();
-        this.executor = new InstructionExecutor(cpu);
+        this.executor = new InstructionExecutor(cpu, program);
         this.stepMode = true;
     }
 
@@ -40,12 +40,12 @@ public class CPUController {
         }
     }
 
-    public boolean hasMoreInstructions() {
-        return program.hasMoreInstructions();
+    public String getCurrentInstruction() {
+        return program.getCurrentInstruction();
     }
 
-    public int getCurrentLine() {
-        return program.getCurrentLine();
+    public boolean hasMoreInstructions() {
+        return program.hasMoreInstructions();
     }
 
     public CPU getCPU() {
@@ -57,11 +57,8 @@ public class CPUController {
         program.reset();
     }
 
-    public void setStepMode(boolean stepMode) {
-        this.stepMode = stepMode;
-    }
 
-    public boolean isStepMode() {
-        return stepMode;
+    public InstructionDecoder getDecoder() {
+        return decoder;
     }
 }

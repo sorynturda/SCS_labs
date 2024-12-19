@@ -1,4 +1,4 @@
-package com.cpu8086.model;
+package cpu8086.model;
 
 public enum InstructionType {
     MOV, ADD, SUB, OR, XOR, AND, MUL,

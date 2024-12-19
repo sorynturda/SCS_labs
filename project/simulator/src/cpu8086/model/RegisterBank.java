@@ -1,4 +1,4 @@
-package com.cpu8086.model;
+package cpu8086.model;
 
 public class RegisterBank {
     private static final int MAX_16BIT = 0xFFFF;  // Maximum value for 16-bit register: 65535

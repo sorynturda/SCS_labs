@@ -1,32 +1,27 @@
-package com.cpu8086.controller;
+package cpu8086.controller;
 
 import com.cpu8086.model.*;
 import com.cpu8086.exception.*;
-
-import java.util.List;
+import cpu8086.exception.CPUException;
+import cpu8086.exception.InvalidOperandException;
+import cpu8086.model.CPU;
+import cpu8086.model.Instruction;
+import cpu8086.model.Program;
+import cpu8086.model.RegisterType;
 
 public class InstructionExecutor {
     private CPU cpu;
+    private Program program;
     private int instructionPointer;
     private boolean jumpFlag;
 
-    public InstructionExecutor(CPU cpu) {
+    public InstructionExecutor(CPU cpu, Program program) {
         this.cpu = cpu;
+        this.program = program;
         this.instructionPointer = 0;
         this.jumpFlag = false;
     }
 
-    public void execute(List<Instruction> instructions) throws CPUException {
-        while (instructionPointer < instructions.size()) {
-            Instruction instruction = instructions.get(instructionPointer);
-            executeInstruction(instruction);
-            if (!jumpFlag) {
-                instructionPointer++;
-            } else {
-                jumpFlag = false;
-            }
-        }
-    }
 
     public void execute(Instruction instruction) throws CPUException {
         executeInstruction(instruction);
@@ -88,58 +83,103 @@ public class InstructionExecutor {
         if (operands.length != 2) {
             throw new InvalidOperandException("MOV requires two operands");
         }
-        int value = parseOperand(operands[1]);
-        if (value < Short.MIN_VALUE || value > Short.MAX_VALUE) {
-            throw new InvalidOperandException("MOV value out of range: " + value);
+
+        String dest = operands[0].trim();
+        String source = operands[1].trim();
+
+        // If source is an immediate value and destination is memory
+        if (dest.startsWith("[") && !source.startsWith("[")) {
+            try {
+                int value = parseOperand(source);
+                setOperandValue(dest, value);
+                return;
+            } catch (Exception e) {
+                // Not an immediate value, continue with normal processing
+            }
         }
-        setOperandValue(operands[0], value);
+
+        int value = getOperandValue(source);
+        setOperandValue(dest, value);
     }
 
     private void executeAdd(String[] operands) throws CPUException {
         if (operands.length != 2) {
             throw new InvalidOperandException("ADD requires two operands");
         }
-        int value1 = getOperandValue(operands[0]);
-        int value2 = parseOperand(operands[1]);
+
+        String dest = operands[0].trim();
+        int value1 = getOperandValue(dest);
+        int value2 = getOperandValue(operands[1].trim());
+
         int result = cpu.getALU().add(value1, value2);
-        setOperandValue(operands[0], result);
+        setOperandValue(dest, result);
     }
 
     private void executeSub(String[] operands) throws CPUException {
         if (operands.length != 2) {
             throw new InvalidOperandException("SUB requires two operands");
         }
-        int value1 = getOperandValue(operands[0]);
-        int value2 = parseOperand(operands[1]);
+
+        String dest = operands[0].trim();
+        int value1 = getOperandValue(dest);
+        int value2 = getOperandValue(operands[1].trim());
+
         int result = cpu.getALU().subtract(value1, value2);
-        setOperandValue(operands[0], result);
+        setOperandValue(dest, result);
     }
 
     private void executeOr(String[] operands) throws CPUException {
         if (operands.length != 2) {
             throw new InvalidOperandException("OR requires two operands");
         }
-        int value1 = getOperandValue(operands[0]);
-        int value2 = parseOperand(operands[1]);
-        setOperandValue(operands[0], value1 | value2);
+
+        String dest = operands[0].trim();
+        int value1 = getOperandValue(dest);
+        int value2 = getOperandValue(operands[1].trim());
+
+        setOperandValue(dest, value1 | value2);
+
+        // Update flags
+        cpu.getFlags().setZeroFlag((value1 | value2) == 0);
+        cpu.getFlags().setSignFlag(((value1 | value2) & 0x8000) != 0);
+        cpu.getFlags().setCarryFlag(false);
+        cpu.getFlags().setOverflowFlag(false);
     }
 
     private void executeXor(String[] operands) throws CPUException {
         if (operands.length != 2) {
             throw new InvalidOperandException("XOR requires two operands");
         }
-        int value1 = getOperandValue(operands[0]);
-        int value2 = parseOperand(operands[1]);
-        setOperandValue(operands[0], value1 ^ value2);
+
+        String dest = operands[0].trim();
+        int value1 = getOperandValue(dest);
+        int value2 = getOperandValue(operands[1].trim());
+
+        setOperandValue(dest, value1 ^ value2);
+
+        // Update flags
+        cpu.getFlags().setZeroFlag((value1 ^ value2) == 0);
+        cpu.getFlags().setSignFlag(((value1 ^ value2) & 0x8000) != 0);
+        cpu.getFlags().setCarryFlag(false);
+        cpu.getFlags().setOverflowFlag(false);
     }
 
     private void executeAnd(String[] operands) throws CPUException {
         if (operands.length != 2) {
             throw new InvalidOperandException("AND requires two operands");
         }
-        int value1 = getOperandValue(operands[0]);
-        int value2 = parseOperand(operands[1]);
-        setOperandValue(operands[0], value1 & value2);
+
+        String dest = operands[0].trim();
+        int value1 = getOperandValue(dest);
+        int value2 = getOperandValue(operands[1].trim());
+
+        setOperandValue(dest, value1 & value2);
+
+        // Update flags
+        cpu.getFlags().setZeroFlag((value1 & value2) == 0);
+        cpu.getFlags().setSignFlag(((value1 & value2) & 0x8000) != 0);
+        cpu.getFlags().setCarryFlag(false);
+        cpu.getFlags().setOverflowFlag(false);
     }
 
     private void executeMul(String[] operands) throws CPUException {
@@ -157,34 +197,82 @@ public class InstructionExecutor {
         if (operands.length != 1) {
             throw new InvalidOperandException("JMP requires one operand");
         }
-        int target = parseOperand(operands[0]);
-        instructionPointer = target;
-        jumpFlag = true;
+
+        try {
+            // Parse target line number
+            int targetLine = Integer.parseInt(operands[0].trim());
+
+            // Verificăm dacă linia țintă este validă
+            if (targetLine <= 0 || targetLine > program.getInstructionCount()) {
+                throw new InvalidOperandException("Invalid jump target line: " + targetLine);
+            }
+
+            program.jumpToInstruction(targetLine);
+            jumpFlag = true;
+
+            // Actualizăm și IP-ul pentru a reflecta noua poziție
+            cpu.getRegisters().setRegister(RegisterType.IP, targetLine - 1);
+
+        } catch (NumberFormatException e) {
+            throw new InvalidOperandException("Invalid jump target format: " + operands[0]);
+        }
     }
+
 
     private void executeCmp(String[] operands) throws CPUException {
         if (operands.length != 2) {
             throw new InvalidOperandException("CMP requires two operands");
         }
-        int value1 = getOperandValue(operands[0]);
-        int value2 = parseOperand(operands[1]);
-        cpu.getALU().compare(value1, value2);
+
+        int value1 = getOperandValue(operands[0].trim());
+        int value2 = getOperandValue(operands[1].trim());
+
+        // Perform signed comparison
+        int result = value1 - value2;
+
+        // Set Zero Flag (ZF)
+        cpu.getFlags().setZeroFlag(result == 0);
+
+        // Set Sign Flag (SF)
+        cpu.getFlags().setSignFlag((result & 0x8000) != 0);
+
+        // Set Carry Flag (CF) - unsigned comparison
+        cpu.getFlags().setCarryFlag((value1 & 0xFFFF) < (value2 & 0xFFFF));
+
+        // Set Overflow Flag (OF) - signed comparison
+        boolean overflow = (((value1 ^ value2) & (value1 ^ result) & 0x8000) != 0);
+        cpu.getFlags().setOverflowFlag(overflow);
     }
+
 
     private void executeInc(String[] operands) throws CPUException {
         if (operands.length != 1) {
             throw new InvalidOperandException("INC requires one operand");
         }
-        int value = getOperandValue(operands[0]);
-        setOperandValue(operands[0], value + 1);
+
+        String dest = operands[0].trim();
+        int value = getOperandValue(dest);
+        setOperandValue(dest, value + 1);
+
+        // Update flags
+        cpu.getFlags().setZeroFlag((value + 1) == 0);
+        cpu.getFlags().setSignFlag(((value + 1) & 0x8000) != 0);
+        cpu.getFlags().setOverflowFlag(value == 0x7FFF);
     }
 
     private void executeDec(String[] operands) throws CPUException {
         if (operands.length != 1) {
             throw new InvalidOperandException("DEC requires one operand");
         }
-        int value = getOperandValue(operands[0]);
-        setOperandValue(operands[0], value - 1);
+
+        String dest = operands[0].trim();
+        int value = getOperandValue(dest);
+        setOperandValue(dest, value - 1);
+
+        // Update flags
+        cpu.getFlags().setZeroFlag((value - 1) == 0);
+        cpu.getFlags().setSignFlag(((value - 1) & 0x8000) != 0);
+        cpu.getFlags().setOverflowFlag(value == 0x8000);
     }
 
     private void executeShr(String[] operands) throws CPUException {
@@ -200,10 +288,27 @@ public class InstructionExecutor {
         if (operands.length != 1) {
             throw new InvalidOperandException("JZ requires one operand");
         }
-        if (cpu.getFlags().isZeroFlag()) {  // Use CPU's flags
-            int target = parseOperand(operands[0]);
-            instructionPointer = target;
-            jumpFlag = true;
+
+        try {
+            // Parse target line number
+            int targetLine = Integer.parseInt(operands[0].trim());
+
+            // Check if zero flag is set
+            if (cpu.getFlags().isZeroFlag()) {
+                // Validate target line
+                if (targetLine <= 0 || targetLine > program.getInstructionCount()) {
+                    throw new InvalidOperandException("Invalid jump target line: " + targetLine);
+                }
+
+                // Perform the jump
+                program.jumpToInstruction(targetLine);
+                jumpFlag = true;
+
+                // Update IP register
+                cpu.getRegisters().setRegister(RegisterType.IP, targetLine - 1);
+            }
+        } catch (NumberFormatException e) {
+            throw new InvalidOperandException("Invalid jump target format: " + operands[0]);
         }
     }
 
@@ -225,12 +330,27 @@ public class InstructionExecutor {
         if (operands.length != 1) {
             throw new InvalidOperandException("JG requires one operand");
         }
-        // For signed comparison: Jump if greater (SF = OF and ZF = 0)
-        if (!cpu.getFlags().isZeroFlag() &&
-                cpu.getFlags().isSignFlag() == cpu.getFlags().isOverflowFlag()) {
-            int target = parseOperand(operands[0]);
-            instructionPointer = target;
-            jumpFlag = true;
+
+        try {
+            int targetLine = Integer.parseInt(operands[0].trim());
+
+            // JG (Jump if Greater) - ZF=0 AND SF=OF
+            boolean shouldJump = !cpu.getFlags().isZeroFlag() &&
+                    (cpu.getFlags().isSignFlag() == cpu.getFlags().isOverflowFlag());
+
+            if (shouldJump) {
+                // Validate jump target
+                if (targetLine <= 0 || targetLine > program.getInstructionCount()) {
+                    throw new InvalidOperandException("Invalid jump target line: " + targetLine);
+                }
+
+                // Perform the jump
+                program.jumpToInstruction(targetLine);
+                jumpFlag = true;
+                cpu.getRegisters().setRegister(RegisterType.IP, targetLine - 1);
+            }
+        } catch (NumberFormatException e) {
+            throw new InvalidOperandException("Invalid jump target format: " + operands[0]);
         }
     }
 
@@ -314,42 +434,47 @@ public class InstructionExecutor {
     }
 
     private int getOperandValue(String operand) throws CPUException {
-        operand = operand.trim();
+        operand = operand.trim().toUpperCase();
 
         // Check if it's a memory reference
         if (operand.startsWith("[") && operand.endsWith("]")) {
             String addressStr = operand.substring(1, operand.length() - 1);
-            int address;
+
+            // Remove H suffix if present
+            if (addressStr.endsWith("H")) {
+                addressStr = addressStr.substring(0, addressStr.length() - 1);
+            }
 
             try {
-                if (addressStr.endsWith("H") || addressStr.endsWith("h")) {
-                    address = Integer.parseInt(addressStr.substring(0, addressStr.length() - 1), 16);
-                } else {
-                    address = Integer.parseInt(addressStr);
-                }
+                // Parse hexadecimal address
+                int address = Integer.parseInt(addressStr, 16);
+                // Read word from memory
                 return cpu.getMemory().readWord(address);
             } catch (NumberFormatException e) {
                 throw new InvalidOperandException("Invalid memory address: " + addressStr);
             }
         }
 
+        // Try register or immediate value
         return parseOperand(operand);
     }
 
     private void setOperandValue(String operand, int value) throws CPUException {
-        operand = operand.trim();
+        operand = operand.trim().toUpperCase();
 
         // Check if it's a memory reference
         if (operand.startsWith("[") && operand.endsWith("]")) {
             String addressStr = operand.substring(1, operand.length() - 1);
-            int address;
+
+            // Remove H suffix if present
+            if (addressStr.endsWith("H")) {
+                addressStr = addressStr.substring(0, addressStr.length() - 1);
+            }
 
             try {
-                if (addressStr.endsWith("H") || addressStr.endsWith("h")) {
-                    address = Integer.parseInt(addressStr.substring(0, addressStr.length() - 1), 16);
-                } else {
-                    address = Integer.parseInt(addressStr);
-                }
+                // Parse hexadecimal address
+                int address = Integer.parseInt(addressStr, 16);
+                // Write word to memory
                 cpu.getMemory().writeWord(address, value);
                 return;
             } catch (NumberFormatException e) {
@@ -357,9 +482,9 @@ public class InstructionExecutor {
             }
         }
 
-        // If not memory, try to set register
+        // If not memory, must be a register
         try {
-            RegisterType reg = RegisterType.valueOf(operand.toUpperCase());
+            RegisterType reg = RegisterType.valueOf(operand);
             cpu.getRegisters().setRegister(reg, value);
         } catch (IllegalArgumentException e) {
             throw new InvalidOperandException("Invalid operand: " + operand);

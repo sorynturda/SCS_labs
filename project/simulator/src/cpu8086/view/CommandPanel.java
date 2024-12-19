@@ -1,7 +1,8 @@
-package com.cpu8086.view;
+package cpu8086.view;
 
-import com.cpu8086.controller.CPUController;
-import com.cpu8086.exception.CPUException;
+import cpu8086.controller.CPUController;
+import cpu8086.exception.CPUException;
+import cpu8086.exception.InvalidOperandException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,26 +56,46 @@ public class CommandPanel extends JPanel {
     private void loadProgram() {
         try {
             String program = programArea.getText();
+            String[] lines = program.split("\n");
+
+            // Pre-validate all instructions before loading
+            for (int i = 0; i < lines.length; i++) {
+                String line = lines[i].trim();
+                if (!line.isEmpty()) {
+                    try {
+                        controller.getDecoder().decode(line);
+                    } catch (InvalidOperandException e) {
+                        throw new InvalidOperandException("Error at line " + (i + 1) + ": " + e.getMessage());
+                    }
+                }
+            }
+
+            // If validation passed, load the program
             controller.loadProgram(program);
-            statusLabel.setText("Program loaded");
+            statusLabel.setText("Program loaded successfully");
             updateButtonStates();
             parent.updateDisplays();
         } catch (Exception e) {
-            showError("Error loading program: " + e.getMessage());
+            showError(e.getMessage());
         }
     }
 
     private void executeStep() {
         try {
             if (controller.hasMoreInstructions()) {
-                controller.executeNextStep();
-                statusLabel.setText("Line " + (controller.getCurrentLine() + 1));
-                updateButtonStates();
-                parent.updateDisplays();
+                String currentInstruction = controller.getCurrentInstruction();
+                try {
+                    controller.executeNextStep();
+                    statusLabel.setText("Current: " + currentInstruction);
+                    updateButtonStates();
+                    parent.updateDisplays();
+                } catch (CPUException e) {
+                    showError("Error executing instruction '" + currentInstruction + "': " + e.getMessage());
+                }
             } else {
                 statusLabel.setText("Program completed");
             }
-        } catch (CPUException e) {
+        } catch (Exception e) {
             showError("Execution error: " + e.getMessage());
         }
     }
@@ -109,16 +130,14 @@ public class CommandPanel extends JPanel {
     private void showError(String message) {
         statusLabel.setText("Error");
         JOptionPane.showMessageDialog(this,
-            message,
-            "Error",
-            JOptionPane.ERROR_MESSAGE);
+                message,
+                "Execution Error",
+                JOptionPane.ERROR_MESSAGE);
     }
 
     public void updateDisplay() {
         updateButtonStates();
-        if (controller.hasMoreInstructions()) {
-            statusLabel.setText("Line " + (controller.getCurrentLine() + 1));
-        } else {
+        if (!controller.hasMoreInstructions()) {
             statusLabel.setText("Program completed");
         }
     }

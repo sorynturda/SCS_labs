@@ -1,9 +1,9 @@
 
 // view/FlagPanel.java
-package com.cpu8086.view;
+package cpu8086.view;
 
-import com.cpu8086.controller.CPUController;
-import com.cpu8086.model.FlagRegister;
+import cpu8086.controller.CPUController;
+import cpu8086.model.FlagRegister;
 
 import javax.swing.*;
 import java.awt.*;

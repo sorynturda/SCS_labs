@@ -1,4 +1,4 @@
-package com.cpu8086.exception;
+package cpu8086.exception;
 
 public class CPUException extends Exception {
     public CPUException(String message) {

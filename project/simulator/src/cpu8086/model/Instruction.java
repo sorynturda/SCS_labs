@@ -1,4 +1,4 @@
-package com.cpu8086.model;
+package cpu8086.model;
 
 import java.util.*;
 
