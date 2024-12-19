@@ -5,20 +5,17 @@ public class CPU {
     private Memory memory;
     private ALU alu;
     private FlagRegister flags;
-    private BusUnit busUnit;
 
     public CPU() {
         this.registers = new RegisterBank();
         this.memory = new Memory();
         this.flags = new FlagRegister();
         this.alu = new ALU(this.flags);  // Pass the shared flags
-        this.busUnit = new BusUnit();
     }
 
     public void reset() {
         registers.reset();
         flags.reset();
-        busUnit.reset();
     }
 
     public RegisterBank getRegisters() {
@@ -37,7 +34,4 @@ public class CPU {
         return flags;
     }
 
-    public BusUnit getBusUnit() {
-        return busUnit;
-    }
 }
