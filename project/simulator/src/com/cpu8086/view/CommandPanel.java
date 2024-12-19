@@ -1,68 +1,132 @@
+
+// Updated CommandPanel.java
 package com.cpu8086.view;
 
 import com.cpu8086.controller.CPUController;
+import com.cpu8086.exception.CPUException;
+
 import javax.swing.*;
 import java.awt.*;
-import java.util.function.Consumer;
 
 public class CommandPanel extends JPanel {
-    private JTextArea instructionArea;
-    private JButton executeButton;
-    private JButton executeAllButton;
-    private JButton clearButton;
-    private Consumer<String> commandListener;
+    private JTextArea programArea;
+    private JButton loadButton;
+    private JButton stepButton;
+    private JButton runButton;
+    private JButton resetButton;
+    private JLabel statusLabel;
+    private CPUController controller;
+    private SimulatorGUI parent;
 
-    public CommandPanel(CPUController controller) {
+    public CommandPanel(CPUController controller, SimulatorGUI parent) {
+        this.controller = controller;
+        this.parent = parent;
         setLayout(new BorderLayout(5, 5));
-        setBorder(BorderFactory.createTitledBorder("Commands"));
+        setBorder(BorderFactory.createTitledBorder("Program Control"));
         initializeComponents();
     }
 
     private void initializeComponents() {
-        instructionArea = new JTextArea(5, 40);
-        instructionArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        // Program text area
+        programArea = new JTextArea(10, 40);
+        programArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
 
-        executeButton = new JButton("Execute Next");
-        executeAllButton = new JButton("Execute All");
-        clearButton = new JButton("Clear");
-
+        // Control buttons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.add(executeButton);
-        buttonPanel.add(executeAllButton);
-        buttonPanel.add(clearButton);
+        loadButton = new JButton("Load Program");
+        stepButton = new JButton("Step");
+        runButton = new JButton("Run");
+        resetButton = new JButton("Reset");
+        statusLabel = new JLabel("Ready");
 
-        add(new JScrollPane(instructionArea), BorderLayout.CENTER);
+        buttonPanel.add(loadButton);
+        buttonPanel.add(stepButton);
+        buttonPanel.add(runButton);
+        buttonPanel.add(resetButton);
+        buttonPanel.add(statusLabel);
+
+        // Add components
+        add(new JScrollPane(programArea), BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        executeButton.addActionListener(e -> executeNext());
-        executeAllButton.addActionListener(e -> executeAll());
-        clearButton.addActionListener(e -> instructionArea.setText(""));
+        // Button listeners
+        loadButton.addActionListener(e -> loadProgram());
+        stepButton.addActionListener(e -> executeStep());
+        runButton.addActionListener(e -> executeAll());
+        resetButton.addActionListener(e -> reset());
+
+        updateButtonStates();
     }
 
-    private void executeNext() {
-        String[] instructions = instructionArea.getText().split("\n");
-        for (String instruction : instructions) {
-            if (!instruction.trim().isEmpty()) {
-                commandListener.accept(instruction.trim());
-                break;
+    private void loadProgram() {
+        try {
+            String program = programArea.getText();
+            controller.loadProgram(program);
+            statusLabel.setText("Program loaded");
+            updateButtonStates();
+            parent.updateDisplays();
+        } catch (Exception e) {
+            showError("Error loading program: " + e.getMessage());
+        }
+    }
+
+    private void executeStep() {
+        try {
+            if (controller.hasMoreInstructions()) {
+                controller.executeNextStep();
+                statusLabel.setText("Line " + (controller.getCurrentLine() + 1));
+                updateButtonStates();
+                parent.updateDisplays();
+            } else {
+                statusLabel.setText("Program completed");
             }
+        } catch (CPUException e) {
+            showError("Execution error: " + e.getMessage());
         }
     }
 
     private void executeAll() {
-        String[] instructions = instructionArea.getText().split("\n");
-        for (String instruction : instructions) {
-            if (!instruction.trim().isEmpty()) {
-                commandListener.accept(instruction.trim());
-            }
+        try {
+            controller.executeAll();
+            statusLabel.setText("Program completed");
+            updateButtonStates();
+            parent.updateDisplays();
+        } catch (CPUException e) {
+            showError("Execution error: " + e.getMessage());
         }
     }
 
-    public void setCommandListener(Consumer<String> listener) {
-        this.commandListener = listener;
+    private void reset() {
+        controller.reset();
+        statusLabel.setText("Ready");
+        updateButtonStates();
+        parent.updateDisplays();
     }
 
-    public void clearInstructions() {
-        instructionArea.setText("");
+    private void updateButtonStates() {
+        boolean hasProgram = !programArea.getText().trim().isEmpty();
+        boolean hasMoreInstructions = controller.hasMoreInstructions();
+
+        stepButton.setEnabled(hasProgram && hasMoreInstructions);
+        runButton.setEnabled(hasProgram && hasMoreInstructions);
+        resetButton.setEnabled(hasProgram);
+    }
+
+    private void showError(String message) {
+        statusLabel.setText("Error");
+        JOptionPane.showMessageDialog(this,
+            message,
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void updateDisplay() {
+        // Update program display state
+        updateButtonStates();
+        if (controller.hasMoreInstructions()) {
+            statusLabel.setText("Line " + (controller.getCurrentLine() + 1));
+        } else {
+            statusLabel.setText("Program completed");
+        }
     }
 }

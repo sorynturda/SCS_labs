@@ -41,9 +41,8 @@ public class SimulatorGUI extends JFrame {
         displayPanel.add(new JScrollPane(flagPanel));
         displayPanel.add(createScrollPane(aluDisplay, "ALU"));
 
-        // Command panel
-        commandPanel = new CommandPanel(controller);
-        commandPanel.setCommandListener(this::executeCommand);
+        // Command panel - now passing 'this' reference
+        commandPanel = new CommandPanel(controller, this);
 
         // Add components to frame
         add(displayPanel, BorderLayout.CENTER);
@@ -67,26 +66,12 @@ public class SimulatorGUI extends JFrame {
         return scroll;
     }
 
-    private void executeCommand(String command) {
-        try {
-            if (!command.isEmpty()) {
-                controller.queueInstruction(command);
-                controller.executeNext();
-                updateDisplays();
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "Error executing command: " + e.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void updateDisplays() {
+    public void updateDisplays() {
         memoryPanel.update();
         registerPanel.update();
         flagPanel.update();
         updateALUDisplay();
+        commandPanel.updateDisplay();
     }
 
     private void updateALUDisplay() {
