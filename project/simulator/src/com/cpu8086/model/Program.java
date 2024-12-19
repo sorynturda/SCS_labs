@@ -19,7 +19,6 @@ public class Program {
         currentLine = 0;
         running = false;
 
-        // Split program into lines and add valid instructions
         String[] lines = program.split("\n");
         for (String line : lines) {
             String trimmedLine = line.trim();
@@ -30,10 +29,7 @@ public class Program {
     }
 
     public String getCurrentInstruction() {
-        if (currentLine < instructions.size()) {
-            return instructions.get(currentLine);
-        }
-        return null;
+        return currentLine < instructions.size() ? instructions.get(currentLine) : null;
     }
 
     public boolean hasMoreInstructions() {

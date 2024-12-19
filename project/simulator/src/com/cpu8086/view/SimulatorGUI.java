@@ -24,31 +24,24 @@ public class SimulatorGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(5, 5));
 
-        // Create main display panel with grid layout
         JPanel displayPanel = new JPanel(new GridLayout(2, 2, 5, 5));
 
-        // Initialize panels
         memoryPanel = new MemoryPanel(controller);
         registerPanel = new RegisterPanel(controller);
         flagPanel = new FlagPanel(controller);
 
-        // ALU display
         aluDisplay = createDisplayArea("ALU Status");
 
-        // Add panels to display panel
         displayPanel.add(new JScrollPane(memoryPanel));
         displayPanel.add(new JScrollPane(registerPanel));
         displayPanel.add(new JScrollPane(flagPanel));
         displayPanel.add(createScrollPane(aluDisplay, "ALU"));
 
-        // Command panel - now passing 'this' reference
         commandPanel = new CommandPanel(controller, this);
 
-        // Add components to frame
         add(displayPanel, BorderLayout.CENTER);
         add(commandPanel, BorderLayout.SOUTH);
 
-        // Set frame properties
         setSize(900, 800);
         setLocationRelativeTo(null);
     }

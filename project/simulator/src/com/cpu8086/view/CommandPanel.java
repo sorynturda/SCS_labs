@@ -1,5 +1,3 @@
-
-// Updated CommandPanel.java
 package com.cpu8086.view;
 
 import com.cpu8086.controller.CPUController;
@@ -27,11 +25,9 @@ public class CommandPanel extends JPanel {
     }
 
     private void initializeComponents() {
-        // Program text area
         programArea = new JTextArea(10, 40);
         programArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
 
-        // Control buttons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         loadButton = new JButton("Load Program");
         stepButton = new JButton("Step");
@@ -45,11 +41,9 @@ public class CommandPanel extends JPanel {
         buttonPanel.add(resetButton);
         buttonPanel.add(statusLabel);
 
-        // Add components
         add(new JScrollPane(programArea), BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        // Button listeners
         loadButton.addActionListener(e -> loadProgram());
         stepButton.addActionListener(e -> executeStep());
         runButton.addActionListener(e -> executeAll());
@@ -121,7 +115,6 @@ public class CommandPanel extends JPanel {
     }
 
     public void updateDisplay() {
-        // Update program display state
         updateButtonStates();
         if (controller.hasMoreInstructions()) {
             statusLabel.setText("Line " + (controller.getCurrentLine() + 1));
