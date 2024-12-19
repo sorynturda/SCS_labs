@@ -1,7 +1,5 @@
 package cpu8086.controller;
 
-import com.cpu8086.model.*;
-import com.cpu8086.exception.*;
 import cpu8086.exception.CPUException;
 import cpu8086.exception.InvalidOperandException;
 import cpu8086.model.CPU;
@@ -316,13 +314,32 @@ public class InstructionExecutor {
         if (operands.length != 1) {
             throw new InvalidOperandException("LOOP requires one operand");
         }
-        int cx = cpu.getRegisters().getRegister(RegisterType.CX);
-        cx--;
-        cpu.getRegisters().setRegister(RegisterType.CX, cx);
-        if (cx != 0) {
-            int target = parseOperand(operands[0]);
-            instructionPointer = target;
-            jumpFlag = true;
+
+        try {
+            // Parse target line number
+            int targetLine = Integer.parseInt(operands[0].trim());
+
+            // Decrement CX register
+            int cx = cpu.getRegisters().getRegister(RegisterType.CX);
+            cx--;
+            cpu.getRegisters().setRegister(RegisterType.CX, cx);
+
+            // If CX is not zero, perform the jump
+            if (cx != 0) {
+                // Validate target line
+                if (targetLine <= 0 || targetLine > program.getInstructionCount()) {
+                    throw new InvalidOperandException("Invalid jump target line: " + targetLine);
+                }
+
+                // Perform the jump
+                program.jumpToInstruction(targetLine);
+                jumpFlag = true;
+
+                // Update IP register to reflect new position
+                cpu.getRegisters().setRegister(RegisterType.IP, targetLine - 1);
+            }
+        } catch (NumberFormatException e) {
+            throw new InvalidOperandException("Invalid jump target format: " + operands[0]);
         }
     }
 

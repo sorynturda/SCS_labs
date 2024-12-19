@@ -9,8 +9,6 @@ public class Instruction {
     private final Set<RegisterType> sourceRegisters;
     private final Set<RegisterType> destinationRegisters;
     private boolean requiresMemoryAccess;
-    private int memoryAddress;
-    private int cycles;
 
     public Instruction(InstructionType type, String[] operands) {
         this.type = type;
@@ -68,37 +66,12 @@ public class Instruction {
             }
         }
 
-        // Calculate base cycles
-        cycles = calculateBaseCycles();
     }
 
     private boolean isDestinationFirst() {
         return type != InstructionType.MUL;
     }
 
-    private int calculateBaseCycles() {
-        // Base cycle counts for different instruction types
-        switch (type) {
-            case MOV:
-                return requiresMemoryAccess ? 4 : 1;
-            case ADD:
-            case SUB:
-            case AND:
-            case OR:
-            case XOR:
-                return requiresMemoryAccess ? 3 : 1;
-            case MUL:
-                return 10;
-            case JMP:
-            case JZ:
-            case JG:
-                return 2;
-            case LOOP:
-                return 5;
-            default:
-                return 1;
-        }
-    }
 
     public InstructionType getType() {
         return type;
@@ -108,51 +81,6 @@ public class Instruction {
         return operands.clone();
     }
 
-    public int getSize() {
-        return size;
-    }
-
-    public boolean requiresMemoryAccess() {
-        return requiresMemoryAccess;
-    }
-
-    public Set<RegisterType> getSourceRegisters() {
-        return Collections.unmodifiableSet(sourceRegisters);
-    }
-
-    public Set<RegisterType> getDestinationRegisters() {
-        return Collections.unmodifiableSet(destinationRegisters);
-    }
-
-    public void setMemoryAddress(int address) {
-        this.memoryAddress = address;
-    }
-
-    public int getMemoryAddress() {
-        return memoryAddress;
-    }
-
-    public int getCycles() {
-        return cycles;
-    }
-
-    public boolean hasRegisterDependency(Instruction other) {
-        // Check if this instruction's source registers overlap with other's destination
-        for (RegisterType reg : sourceRegisters) {
-            if (other.destinationRegisters.contains(reg)) {
-                return true;
-            }
-        }
-
-        // Check if this instruction's destination registers overlap with other's source or destination
-        for (RegisterType reg : destinationRegisters) {
-            if (other.sourceRegisters.contains(reg) || other.destinationRegisters.contains(reg)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     @Override
     public String toString() {

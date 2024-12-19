@@ -4,6 +4,7 @@ import cpu8086.exception.CPUException;
 import cpu8086.model.CPU;
 import cpu8086.model.Instruction;
 import cpu8086.model.Program;
+import cpu8086.model.RegisterType;
 
 public class CPUController {
     private CPU cpu;
@@ -27,10 +28,21 @@ public class CPUController {
 
     public void executeNextStep() throws CPUException {
         if (program.hasMoreInstructions()) {
+            int currentLine = program.getCurrentLineNumber();
+
             String instruction = program.getCurrentInstruction();
             Instruction decodedInstr = decoder.decode(instruction);
+
+            cpu.getRegisters().setRegister(RegisterType.IP, currentLine);
+
             executor.execute(decodedInstr);
-            program.nextInstruction();
+
+            if (!executor.isJumpFlag()) {
+                program.nextInstruction();
+                cpu.getRegisters().setRegister(RegisterType.IP, currentLine + 1);
+            } else {
+                executor.clearJumpFlag();
+            }
         }
     }
 

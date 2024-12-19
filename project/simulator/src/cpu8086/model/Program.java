@@ -64,6 +64,10 @@ public class Program {
         return instructions.size();
     }
 
+    public int getCurrentLineNumber() {
+        return currentLine;
+    }
+
     public void setRunning(boolean running) {
         this.running = running;
     }

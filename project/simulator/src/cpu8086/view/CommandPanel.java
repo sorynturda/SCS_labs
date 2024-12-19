@@ -70,6 +70,9 @@ public class CommandPanel extends JPanel {
                 }
             }
 
+            // Reset CPU state before loading new program
+            controller.reset();
+
             // If validation passed, load the program
             controller.loadProgram(program);
             statusLabel.setText("Program loaded successfully");
