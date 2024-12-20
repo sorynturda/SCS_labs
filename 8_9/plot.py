@@ -49,8 +49,11 @@ def ex3(df):
 		if source == "Timestamp":
 			continue
 		file_name = f"{source}_data.bin"
-		data.astype(np.int32).toFile(file_name)
 
+		df[source] = df[source].apply(lambda x: format(x, '032b'))
+		with open (file_name, "w") as f:
+			for value in df[source]:
+				f.write(value + "\n")
 
 def main():
 	df = pd.read_csv(file_path, parse_dates=['Timestamp'])
